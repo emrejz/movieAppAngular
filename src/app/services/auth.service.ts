@@ -10,20 +10,21 @@ export class AuthService {
   constructor(private http: HttpClient) {}
   path = "https://movie-api-with-nodejs.herokuapp.com/";
   jwtHelper: JwtHelper = new JwtHelper();
-  userInfo: any = {};
+  username: string = this.getCurrentUser();
+  loading: boolean = false;
   TOKEN_KEY = "token";
   logIn(loginUser: LoginUser) {
+    this.loading = true;
     this.http.post(this.path + "authenticate", loginUser).subscribe(data => {
+      this.username = "";
       if (data["error"]) {
-        this.userInfo = {};
-        this.userInfo.error = data["error"].message;
-      } else {
-        this.userInfo = {};
+        //todo alert
+        this.username = "";
+      } else if (data["token"]) {
         this.saveToken(data["token"]);
-        this.userInfo.username = this.jwtHelper.decodeToken(
-          data["token"]
-        ).username;
+        this.username = this.jwtHelper.decodeToken(data["token"]).username;
       }
+      this.loading = false;
     });
   }
   saveToken(token) {
@@ -31,13 +32,18 @@ export class AuthService {
   }
   logOut() {
     localStorage.removeItem(this.TOKEN_KEY);
-  }
-
-  loggedIn() {
-    return tokenNotExpired(this.TOKEN_KEY);
+    this.username = "";
   }
 
   get token() {
     return localStorage.getItem(this.TOKEN_KEY);
+  }
+  getCurrentUser() {
+    this.username = this.token
+      ? this.jwtHelper.decodeToken(this.token).username
+        ? this.jwtHelper.decodeToken(this.token).username
+        : ""
+      : "";
+    return this.username;
   }
 }

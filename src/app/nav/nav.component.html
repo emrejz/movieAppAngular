@@ -35,28 +35,48 @@
         Search
       </button>
     </form> -->
-    <form
-      #loginForm="ngForm"
-      (ngSubmit)="logIn()"
-      class="form-inline my-2 my-lg-0"
-    >
-      <input
-        class="form-control mr-sm-2"
-        [(ngModel)]="loginUser.username"
-        required
-        name="username"
-        type="text"
-      />
-      <input
-        class="form-control mr-sm-2"
-        [(ngModel)]="loginUser.password"
-        required
-        name="password"
-        type="password"
-      />
-      <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-        Login
+    <div *ngIf="!username; else elseTemplate">
+      <form
+        #loginForm="ngForm"
+        (ngSubmit)="logIn()"
+        class="form-inline my-2 my-lg-0"
+      >
+        <input
+          class="form-control mr-sm-2"
+          [(ngModel)]="loginUser.username"
+          required
+          name="username"
+          type="text"
+          [disabled]="logInProgress"
+        />
+        <input
+          class="form-control mr-sm-2"
+          [(ngModel)]="loginUser.password"
+          required
+          name="password"
+          type="password"
+          [disabled]="logInProgress"
+        />
+        <button
+          class="btn btn-secondary my-2 my-sm-0"
+          type="submit"
+          [disabled]="logInProgress"
+        >
+          Login
+        </button>
+      </form>
+    </div>
+    <ng-template #elseTemplate>
+      <div class="mr-sm-2">
+        {{ username }}
+      </div>
+      <button
+        class="btn btn-secondary my-2 my-sm-0"
+        (click)="logOut()"
+        type="submit"
+      >
+        Log out
       </button>
-    </form>
+    </ng-template>
   </div>
 </nav>

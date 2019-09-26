@@ -5,7 +5,8 @@ import { FormGroup } from "@angular/forms";
 @Component({
   selector: "app-nav",
   templateUrl: "./nav.component.html",
-  styleUrls: ["./nav.component.css"]
+  styleUrls: ["./nav.component.css"],
+  providers: [AuthService]
 })
 export class NavComponent implements OnInit {
   constructor(private authService: AuthService) {}
@@ -14,8 +15,16 @@ export class NavComponent implements OnInit {
   ngOnInit() {}
   logIn() {
     this.authService.logIn(this.loginUser);
+    this.loginUser = {};
   }
   logOut() {
     this.authService.logOut();
+  }
+  get logInProgress() {
+    return this.authService.loading;
+  }
+
+  get username() {
+    return this.authService.getCurrentUser();
   }
 }
