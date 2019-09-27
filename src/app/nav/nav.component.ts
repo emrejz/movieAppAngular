@@ -15,7 +15,9 @@ export class NavComponent implements OnInit {
   ngOnInit() {}
   logIn() {
     this.authService.logIn(this.loginUser);
-    this.loginUser = {};
+
+    // this.loginUser = {};
+    // await this.movieService.getMovies(this.authService.token);
   }
   logOut() {
     this.authService.logOut();
