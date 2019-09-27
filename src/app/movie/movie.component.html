@@ -1,32 +1,29 @@
-<div class="container mt-3">
-  <button (click)="deneme()">asd</button>
+<div class="container mt-5">
   <div class="row">
-    <div
-      *ngFor="let movie of movies"
-      class="col-3 mt-3"
-      style="height: 500px;"
-    >
-      <div class="card mb-3">
-        <h3 class="card-header">{{ movie.title }}</h3>
+    <div *ngFor="let movie of movies" class="col-3 mb-5">
+      <div class="card">
+        <h3
+          class="card-header text-center"
+          style="height: 86px; justify-content: center;align-items: center; display: flex;"
+        >
+          {{ movie.title }}
+        </h3>
 
         <img
           style="height: 200px; width: 100%; display: block;"
-          src="https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UX182_CR0,0,182,268_AL_.jpg"
+          src="{{ movie.cover }}"
           alt="Card image"
         />
-        <div class="card-body">
+        <div class="card-body text-center">
           <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            Year : {{ movie.year }}<br />
+            IMDB Score : {{ movie.imdb_score }}
           </p>
         </div>
 
-        <div class="card-body text-center">
-          <a class="card-link">Card link</a>
-          <a class="card-link">Another link</a>
-        </div>
-        <div class="card-footer text-muted text-right">
-          2 days ago
+        <div class="card-footer text-muted text-center">
+          <a class="card-link">Edit</a>
+          <a class="card-link">Delete</a>
         </div>
       </div>
     </div>
