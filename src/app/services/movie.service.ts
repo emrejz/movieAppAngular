@@ -27,4 +27,22 @@ export class MovieService {
           this.movies = data;
         });
   }
+  addMovieFunc(movie: Movie) {
+    this.http
+      .post(this.path + "api/movies", movie, {
+        headers: this.headers.append(
+          "x-access-token",
+          localStorage.getItem("token")
+        )
+      })
+      .subscribe(
+        data => {
+          //todo redirect movie
+          //tode if error ?
+        },
+        error => {
+          //todo error
+        }
+      );
+  }
 }

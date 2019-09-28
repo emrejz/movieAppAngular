@@ -90,6 +90,12 @@
         >
       </select>
     </div>
-    <button type="submit" class="btn btn-primary btn-lg mt-2">Add Movie</button>
+    <button
+      type="submit"
+      class="btn btn-primary btn-lg mt-2"
+      [disabled]="!movieAddForm.valid"
+    >
+      Add Movie
+    </button>
   </form>
 </div>

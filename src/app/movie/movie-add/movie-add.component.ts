@@ -1,3 +1,4 @@
+import { MovieService } from "./../../services/movie.service";
 import { DirectorService } from "./../../services/director.service";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
@@ -11,7 +12,8 @@ import { Movie } from "src/app/models/movie";
 export class MovieAddComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private directorService: DirectorService
+    private directorService: DirectorService,
+    private movieService: MovieService
   ) {}
   movieAddForm: FormGroup;
   movie: Movie;
@@ -43,22 +45,20 @@ export class MovieAddComponent implements OnInit {
           Validators.pattern("^-?[0-9]\\d*(\\.\\d{1})?$")
         ]
       ],
-      cover: [
-        "",
-        [
-          Validators.required,
-          Validators.pattern(
-            "(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?"
-          )
-        ]
-      ],
-      director: [""]
+      cover: ["", [Validators.required]],
+      director: ["", Validators.required]
     });
   }
   get directors() {
     return this.directorService.directors;
   }
   addMovie() {
-    console.log(this.movieAddForm.value);
+    if (this.movieAddForm.valid) {
+      this.movie = Object.assign(
+        { country: "Turkey", category: "Comedy" },
+        this.movieAddForm.value
+      );
+      this.movieService.addMovieFunc(this.movie);
+    }
   }
 }
