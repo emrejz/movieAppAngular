@@ -1,5 +1,7 @@
+import { DirectorService } from "./../../services/director.service";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
+import { Movie } from "src/app/models/movie";
 
 @Component({
   selector: "app-movie-add",
@@ -7,10 +9,15 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./movie-add.component.css"]
 })
 export class MovieAddComponent implements OnInit {
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private directorService: DirectorService
+  ) {}
   movieAddForm: FormGroup;
+  movie: Movie;
   ngOnInit() {
     this.createMovieAdd();
+    this.directorService.getDirectorsFunc();
   }
   createMovieAdd() {
     this.movieAddForm = this.formBuilder.group({
@@ -44,7 +51,14 @@ export class MovieAddComponent implements OnInit {
             "(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?"
           )
         ]
-      ]
+      ],
+      director: [""]
     });
+  }
+  get directors() {
+    return this.directorService.directors;
+  }
+  addMovie() {
+    console.log(this.movieAddForm.value);
   }
 }

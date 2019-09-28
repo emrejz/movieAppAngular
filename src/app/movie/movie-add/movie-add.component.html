@@ -1,5 +1,9 @@
 <div class="container text-center">
-  <form [formGroup]="movieAddForm" class="addMovieContainer">
+  <form
+    [formGroup]="movieAddForm"
+    class="addMovieContainer"
+    (ngSubmit)="addMovie()"
+  >
     <div class="form-group">
       <label class="control-label">Title</label>
       <input
@@ -79,11 +83,11 @@
     </div>
 
     <div class="form-group mt-4">
-      <select class="custom-select">
-        <option selected="">Select director</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+      <select class="custom-select" formControlName="director">
+        <option value="" disabled selected>Select director</option>
+        <option *ngFor="let director of directors" value="{{ director._id }}"
+          >{{ director.name }} {{ director.surname }}</option
+        >
       </select>
     </div>
     <button type="submit" class="btn btn-primary btn-lg mt-2">Add Movie</button>
