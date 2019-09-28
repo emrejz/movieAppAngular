@@ -1,10 +1,20 @@
-<div class="container">
-  <div class="addMovieContainer">
+<div class="container text-center">
+  <form [formGroup]="movieAddForm" class="addMovieContainer">
     <div class="form-group">
       <label class="control-label">Title</label>
       <input
+        formControlName="title"
+        [ngClass]="
+          !movieAddForm.get('title').touched
+            ? ''
+            : movieAddForm.get('title').hasError('required') ||
+              movieAddForm.get('title').hasError('minLength') ||
+              movieAddForm.get('title').hasError('maxlength')
+            ? 'is-invalid'
+            : 'is-valid'
+        "
         type="text"
-        class="form-control is-valid"
+        class="form-control"
         id="inputValid"
         placeholder="enter title"
       />
@@ -12,8 +22,19 @@
     <div class="form-group">
       <label class="control-label">Year</label>
       <input
-        type="text"
-        class="form-control is-valid"
+        formControlName="year"
+        [ngClass]="
+          !movieAddForm.get('year').touched
+            ? ''
+            : movieAddForm.get('year').hasError('required') ||
+              movieAddForm.get('year').hasError('max') ||
+              movieAddForm.get('year').hasError('min') ||
+              movieAddForm.get('year').hasError('pattern')
+            ? 'is-invalid'
+            : 'is-valid'
+        "
+        class="form-control"
+        type="number"
         id="inputValid"
         placeholder="enter year"
       />
@@ -21,8 +42,19 @@
     <div class="form-group">
       <label class="control-label">IMDB Score</label>
       <input
-        type="text"
-        class="form-control is-valid"
+        formControlName="imdb_score"
+        [ngClass]="
+          !movieAddForm.get('imdb_score').touched
+            ? ''
+            : movieAddForm.get('imdb_score').hasError('required') ||
+              movieAddForm.get('imdb_score').hasError('max') ||
+              movieAddForm.get('imdb_score').hasError('min') ||
+              movieAddForm.get('imdb_score').hasError('pattern')
+            ? 'is-invalid'
+            : 'is-valid'
+        "
+        type="number"
+        class="form-control"
         id="inputValid"
         placeholder="enter score"
       />
@@ -30,8 +62,17 @@
     <div class="form-group">
       <label class="control-label">Cover Url</label>
       <input
+        formControlName="cover"
+        [ngClass]="
+          !movieAddForm.get('cover').touched
+            ? ''
+            : movieAddForm.get('cover').hasError('required') ||
+              movieAddForm.get('cover').hasError('pattern')
+            ? 'is-invalid'
+            : 'is-valid'
+        "
         type="text"
-        class="form-control is-valid"
+        class="form-control"
         id="inputValid"
         placeholder="enter url"
       />
@@ -45,5 +86,6 @@
         <option value="3">Three</option>
       </select>
     </div>
-  </div>
+    <button type="submit" class="btn btn-primary btn-lg mt-2">Add Movie</button>
+  </form>
 </div>
