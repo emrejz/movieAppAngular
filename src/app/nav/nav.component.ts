@@ -12,7 +12,9 @@ export class NavComponent implements OnInit {
   constructor(private authService: AuthService) {}
   loginUser: any = {};
   loginForm: FormGroup;
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.loggedIn();
+  }
   logIn() {
     this.authService.logIn(this.loginUser);
 

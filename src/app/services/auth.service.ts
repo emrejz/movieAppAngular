@@ -11,7 +11,7 @@ export class AuthService {
   constructor(private http: HttpClient, private movieService: MovieService) {}
   path = "https://movie-api-with-nodejs.herokuapp.com/";
   jwtHelper: JwtHelper = new JwtHelper();
-  username: string = this.getCurrentUser();
+  username: string = "";
   loading: boolean = false;
   TOKEN_KEY = "token";
   logIn = (loginUser: LoginUser) => {
@@ -45,7 +45,11 @@ export class AuthService {
     localStorage.removeItem(this.TOKEN_KEY);
     this.username = "";
   }
-
+  loggedIn() {
+    if (this.token && this.jwtHelper.isTokenExpired(this.token)) {
+      this.logOut();
+    }
+  }
   get token() {
     return localStorage.getItem(this.TOKEN_KEY);
   }
