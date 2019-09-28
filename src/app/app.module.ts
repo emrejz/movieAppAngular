@@ -1,3 +1,4 @@
+import { MovieAddComponent } from './movie/movie-add/movie-add.component';
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
@@ -10,7 +11,7 @@ import { MovieComponent } from "./movie/movie.component";
 import { HomeComponent } from "./home/home.component";
 
 @NgModule({
-  declarations: [AppComponent, NavComponent, MovieComponent, HomeComponent],
+  declarations: [AppComponent, NavComponent, MovieComponent, HomeComponent,MovieAddComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
