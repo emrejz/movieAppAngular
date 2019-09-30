@@ -14,6 +14,7 @@ export class NavComponent implements OnInit {
   loginForm: FormGroup;
   ngOnInit() {
     this.authService.loggedIn();
+    //  this.authService.exp();
   }
   logIn() {
     this.authService.logIn(this.loginUser);
@@ -25,6 +26,7 @@ export class NavComponent implements OnInit {
     this.authService.logOut();
   }
   get logInProgress() {
+    console.log("fafasf");
     return this.authService.loading;
   }
 

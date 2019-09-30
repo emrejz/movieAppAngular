@@ -45,20 +45,23 @@ export class AuthService {
     localStorage.removeItem(this.TOKEN_KEY);
     this.username = "";
   }
-  loggedIn() {
-    if (this.token && this.jwtHelper.isTokenExpired(this.token)) {
-      this.logOut();
-    }
+  loggedIn(): boolean {
+    if (this.token) {
+      if (this.jwtHelper.isTokenExpired(this.token)) {
+        this.logOut();
+        return false;
+      } else return true;
+    } else return false;
   }
   get token() {
     return localStorage.getItem(this.TOKEN_KEY);
   }
   getCurrentUser() {
-    this.username = this.token
-      ? this.jwtHelper.decodeToken(this.token).username
-        ? this.jwtHelper.decodeToken(this.token).username
-        : ""
-      : "";
+    if (this.loggedIn()) {
+      this.username = this.jwtHelper.decodeToken(this.token).username;
+    } else {
+      this.username = "";
+    }
     return this.username;
   }
 }
