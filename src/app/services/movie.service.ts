@@ -2,12 +2,13 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Movie } from "../models/movie";
 import { Observable } from "rxjs";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root"
 })
 export class MovieService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
   path = "https://movie-api-with-nodejs.herokuapp.com/";
   movies: Movie[] = [];
   headers: HttpHeaders = new HttpHeaders();
@@ -25,15 +26,16 @@ export class MovieService {
         })
         .subscribe(
           data => {
-            this.movies = data;
-            //todo error
+            if (data["error"]) {
+              this.router.navigateByUrl("register");
+            } else this.movies = data;
           },
           error => {
             //todo error
           }
         );
     } else {
-      //todo redirect
+      this.router.navigateByUrl("register");
     }
   }
   addMovieFunc(movie: Movie) {
@@ -45,15 +47,18 @@ export class MovieService {
         })
         .subscribe(
           data => {
-            //todo redirect movie
-            //tode if error ?
+            if (data["error"]) {
+              //todo alert error
+            } else {
+              this.router.navigateByUrl("movies");
+            }
           },
           error => {
             //todo error
           }
         );
     } else {
-      //todo redirect
+      this.router.navigateByUrl("register");
     }
   }
 }

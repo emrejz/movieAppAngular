@@ -1,12 +1,13 @@
 import { Director } from "./../models/director";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root"
 })
 export class DirectorService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
   path = "https://movie-api-with-nodejs.herokuapp.com/";
   directors: Director[] = [];
   headers: HttpHeaders = new HttpHeaders();
@@ -19,7 +20,6 @@ export class DirectorService {
         })
         .subscribe(
           data => {
-            console.log(data);
             if (data["error"]) {
               //todo error
             } else {
@@ -31,5 +31,6 @@ export class DirectorService {
             //todo error
           }
         );
+    else this.router.navigateByUrl("register");
   }
 }
