@@ -25,10 +25,14 @@
         >
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="add/movie" routerLinkActive="active" >Add Movie</a>
+        <a class="nav-link" routerLink="add/movie" routerLinkActive="active"
+          >Add Movie</a
+        >
       </li>
       <li class="nav-item" *ngIf="!username">
-        <a class="nav-link">Register</a>
+        <a class="nav-link" routerLink="register" routerLinkActive="active"
+          >Register</a
+        >
       </li>
     </ul>
     <!-- <form class="form-inline my-2 my-lg-0">

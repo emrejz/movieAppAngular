@@ -9,17 +9,27 @@ import { AppComponent } from "./app.component";
 import { NavComponent } from "./nav/nav.component";
 import { MovieComponent } from "./movie/movie.component";
 import { HomeComponent } from "./home/home.component";
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
-  declarations: [AppComponent, NavComponent, MovieComponent, HomeComponent,MovieAddComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+   declarations: [
+      AppComponent,
+      NavComponent,
+      MovieComponent,
+      HomeComponent,
+      MovieAddComponent,
+      RegisterComponent
+   ],
+   imports: [
+      BrowserModule,
+      AppRoutingModule,
+      HttpClientModule,
+      FormsModule,
+      ReactiveFormsModule
+   ],
+   providers: [],
+   bootstrap: [
+      AppComponent
+   ]
 })
 export class AppModule {}
