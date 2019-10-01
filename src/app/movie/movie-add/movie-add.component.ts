@@ -45,7 +45,10 @@ export class MovieAddComponent implements OnInit {
           Validators.pattern("^-?[0-9]\\d*(\\.\\d{1})?$")
         ]
       ],
-      cover: ["", [Validators.required]],
+      cover: [
+        "",
+        [Validators.required, Validators.pattern("(https?://.*.(?:png|jpg))")]
+      ],
       director: ["", Validators.required]
     });
   }
