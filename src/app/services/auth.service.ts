@@ -1,3 +1,4 @@
+import { Router } from "@angular/router";
 import { MovieService } from "./movie.service";
 import { LoginUser } from "./../models/loginUser";
 import { Injectable } from "@angular/core";
@@ -8,7 +9,11 @@ import { JwtHelper, tokenNotExpired } from "angular2-jwt";
   providedIn: "root"
 })
 export class AuthService {
-  constructor(private http: HttpClient, private movieService: MovieService) {}
+  constructor(
+    private http: HttpClient,
+    private movieService: MovieService,
+    private router: Router
+  ) {}
   path = "https://movie-api-with-nodejs.herokuapp.com/";
   jwtHelper: JwtHelper = new JwtHelper();
   username: string = "";
@@ -38,6 +43,28 @@ export class AuthService {
   // logInn(loginUser: LoginUser): Observable<Token> {
   //   return this.http.post<Token>(this.path + "authenticate", loginUser);
   // }
+  signUp(loginUser: LoginUser) {
+    this.loading = true;
+    this.http.post(this.path + "register", loginUser).subscribe(
+      data => {
+        console.log(data);
+        this.username = "";
+        this.loading = false;
+        if (data["error"]) {
+          //todo alert
+        } else if (data["token"]) {
+          this.saveToken(data["token"]);
+          this.username = this.jwtHelper.decodeToken(data["token"]).username;
+          this.router.navigateByUrl("movies");
+        }
+      },
+      error => {
+        this.loading = false;
+        console.log(error);
+        //todo error
+      }
+    );
+  }
   saveToken(token) {
     localStorage.setItem(this.TOKEN_KEY, token);
   }

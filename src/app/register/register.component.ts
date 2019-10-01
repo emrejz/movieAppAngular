@@ -1,5 +1,6 @@
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
+import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: "app-register",
@@ -7,7 +8,10 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./register.component.css"]
 })
 export class RegisterComponent implements OnInit {
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService
+  ) {}
   newUserForm: FormGroup;
   ngOnInit() {
     this.createNewUserForm();
@@ -16,7 +20,7 @@ export class RegisterComponent implements OnInit {
     this.newUserForm = this.formBuilder.group(
       {
         username: [
-          "",
+          { value: "", disabled: this.signUpProgress },
           [
             Validators.required,
             Validators.minLength(3),
@@ -24,7 +28,7 @@ export class RegisterComponent implements OnInit {
           ]
         ],
         password: [
-          "",
+          { value: "", disabled: this.signUpProgress },
           [
             Validators.required,
             Validators.minLength(3),
@@ -32,7 +36,7 @@ export class RegisterComponent implements OnInit {
           ]
         ],
         passwordC: [
-          "",
+          { value: "", disabled: this.signUpProgress },
           [
             Validators.required,
             Validators.minLength(3),
@@ -46,8 +50,15 @@ export class RegisterComponent implements OnInit {
     );
   }
   passwordMatchValidator(g: FormGroup) {
-    return g.get("password").value === g.get("passwordC").value
-      ? null
-      : { mismatch: true };
+    g.get("password").value !== g.get("passwordC").value &&
+      g.get("passwordC").setErrors({ mismatch: true });
+  }
+  newUser() {
+    if (this.newUserForm.valid) {
+      this.authService.signUp(this.newUserForm.value);
+    }
+  }
+  get signUpProgress() {
+    return this.authService.loading;
   }
 }
