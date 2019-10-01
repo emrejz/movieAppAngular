@@ -1,3 +1,74 @@
-<p>
-  register works!
-</p>
+<div class="container text-center">
+  <form
+    [formGroup]="newUserForm"
+    class="addMovieContainer"
+    (ngSubmit)="newUser()"
+  >
+    <h1>SIGN UP</h1>
+    <div class="form-group">
+      <label class="control-label">Username</label>
+      <input
+        formControlName="username"
+        [ngClass]="
+          !newUserForm.get('username').touched
+            ? ''
+            : newUserForm.get('username').hasError('required') ||
+              newUserForm.get('username').hasError('minlength') ||
+              newUserForm.get('username').hasError('maxlength')
+            ? 'is-invalid'
+            : 'is-valid'
+        "
+        type="text"
+        class="form-control"
+        id="inputValid"
+        placeholder="enter username"
+      />
+    </div>
+    <div class="form-group">
+      <label class="control-label">Password</label>
+      <input
+        formControlName="password"
+        [ngClass]="
+          !newUserForm.get('password').touched
+            ? ''
+            : newUserForm.get('password').hasError('required') ||
+              newUserForm.get('password').hasError('minlength') ||
+              newUserForm.get('password').hasError('maxlength')
+            ? 'is-invalid'
+            : 'is-valid'
+        "
+        type="password"
+        class="form-control"
+        id="inputValid"
+        placeholder="enter password"
+      />
+    </div>
+    <div class="form-group">
+      <label class="control-label">Password</label>
+      <input
+        formControlName="passwordC"
+        [ngClass]="
+          !newUserForm.get('passwordC').touched
+            ? ''
+            : newUserForm.get('passwordC').hasError('required') ||
+              newUserForm.get('passwordC').hasError('minlength') ||
+              newUserForm.get('passwordC').hasError('maxlength') ||
+              newUserForm.get('passwordC').hasError('mismatch')
+            ? 'is-invalid'
+            : 'is-valid'
+        "
+        type="password"
+        class="form-control"
+        id="inputValid"
+        placeholder="re-enter password"
+      />
+    </div>
+    <button
+      type="submit"
+      class="btn btn-primary btn-lg mt-2"
+      [disabled]="!newUserForm.valid"
+    >
+      Sign Up
+    </button>
+  </form>
+</div>
