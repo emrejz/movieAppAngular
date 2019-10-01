@@ -1,3 +1,4 @@
+import { Router } from "@angular/router";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../services/auth.service";
@@ -10,10 +11,14 @@ import { AuthService } from "../services/auth.service";
 export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
   newUserForm: FormGroup;
   ngOnInit() {
+    if (this.authService.getCurrentUser()) {
+      this.router.navigateByUrl("movies");
+    }
     this.createNewUserForm();
   }
   createNewUserForm() {

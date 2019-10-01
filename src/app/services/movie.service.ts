@@ -1,3 +1,4 @@
+import { AlertifyService } from "./alertify.service";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Movie } from "../models/movie";
@@ -8,7 +9,11 @@ import { Router } from "@angular/router";
   providedIn: "root"
 })
 export class MovieService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private alertifyService: AlertifyService
+  ) {}
   path = "https://movie-api-with-nodejs.herokuapp.com/";
   movies: Movie[] = [];
   headers: HttpHeaders = new HttpHeaders();
@@ -31,10 +36,11 @@ export class MovieService {
             } else this.movies = data;
           },
           error => {
-            //todo error
+            this.alertifyService.error("Service error");
           }
         );
     } else {
+      this.alertifyService.warning("Please sign in/up");
       this.router.navigateByUrl("register");
     }
   }
@@ -48,16 +54,19 @@ export class MovieService {
         .subscribe(
           data => {
             if (data["error"]) {
-              //todo alert error
+              this.alertifyService.warning(data["error"].message);
             } else {
+              this.alertifyService.success("Movie added");
+
               this.router.navigateByUrl("movies");
             }
           },
           error => {
-            //todo error
+            this.alertifyService.error("Serice error");
           }
         );
     } else {
+      this.alertifyService.warning("Please sign in/up");
       this.router.navigateByUrl("register");
     }
   }

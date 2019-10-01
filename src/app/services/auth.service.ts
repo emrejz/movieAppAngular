@@ -1,3 +1,4 @@
+import { AlertifyService } from "./alertify.service";
 import { Router } from "@angular/router";
 import { MovieService } from "./movie.service";
 import { LoginUser } from "./../models/loginUser";
@@ -12,7 +13,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private movieService: MovieService,
-    private router: Router
+    private router: Router,
+    private alertifyService: AlertifyService
   ) {}
   path = "https://movie-api-with-nodejs.herokuapp.com/";
   jwtHelper: JwtHelper = new JwtHelper();
@@ -21,47 +23,49 @@ export class AuthService {
   TOKEN_KEY = "token";
   logIn = (loginUser: LoginUser) => {
     this.loading = true;
+    this.username = "";
     this.http.post(this.path + "authenticate", loginUser).subscribe(
       data => {
-        this.username = "";
         if (data["error"]) {
-          //todo alert
-          this.username = "";
+          this.alertifyService.warning(data["error"].message);
         } else if (data["token"]) {
           this.movieService.getMoviesFunc(data["token"]);
           this.saveToken(data["token"]);
           this.username = this.jwtHelper.decodeToken(data["token"]).username;
+          this.alertifyService.success("Welcome " + this.username);
+          this.router.navigateByUrl("movies");
         }
         this.loading = false;
       },
       error => {
         this.loading = false;
-        //todo alert
+        this.alertifyService.error("Service error");
       }
     );
   };
-  // logInn(loginUser: LoginUser): Observable<Token> {
-  //   return this.http.post<Token>(this.path + "authenticate", loginUser);
-  // }
+
   signUp(loginUser: LoginUser) {
     this.loading = true;
+    this.username = "";
     this.http.post(this.path + "register", loginUser).subscribe(
       data => {
-        console.log(data);
-        this.username = "";
         this.loading = false;
         if (data["error"]) {
-          //todo alert
+          if (data["error"].code) {
+            this.alertifyService.warning("Username already exists");
+          } else {
+            this.alertifyService.warning(data["error"].message);
+          }
         } else if (data["token"]) {
           this.saveToken(data["token"]);
           this.username = this.jwtHelper.decodeToken(data["token"]).username;
+          this.alertifyService.success("Welcome " + this.username);
           this.router.navigateByUrl("movies");
         }
       },
       error => {
         this.loading = false;
-        console.log(error);
-        //todo error
+        this.alertifyService.error("Service error");
       }
     );
   }
@@ -83,6 +87,7 @@ export class AuthService {
   get token() {
     return localStorage.getItem(this.TOKEN_KEY);
   }
+
   getCurrentUser() {
     if (this.loggedIn()) {
       this.username = this.jwtHelper.decodeToken(this.token).username;
